@@ -1,0 +1,16 @@
+.healthloq-widget-svg-icon { position: fixed; bottom: 15px; right: 15px; padding: 10px; background-color: rgba(0,121,55,.7098039215686275); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.healthloq-widget-btn-ui {  background-color: rgba(0,121,55,.7098039215686275) !important; color: #fff !important;}
+.healthloq-widget-verified-status { font-size: 1.25rem !important; font-weight: 700 !important; }
+.healthloq-widget-verified-status img { width: 25px; padding-left: 10px; }
+.healthloq-widget-accordion-tab { background-color: rgb(225 220 220 / 60%) !important; }
+.healthloq-widget-accordion-details { }
+/*.dialog_contact div div { width: 100%; }*/
+.healthloq-widget-dialog_contact div div { max-width: 800px; }
+.healthloq-widget-dialog_contact_no_data div div { width: 100%; box-sizing: border-box; }
+.MuiDialogContent-root.css-ypiqx9-MuiDialogContent-root { box-sizing: border-box; }
+.healthloq-widget-dialog-actions { box-sizing: border-box; }
+.healthloq-widget-main-content-section { display: flex; align-items: center; }
+.healthloq-widget-sub-content-section { width: 70%; }
+.healthloq-widget-main-content-section div img { width: 100%; max-width: 200px; max-height: 200px; object-fit: contain; }
+.healthloq-widget-circular-progress { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255,255,255,0.5); z-index: 1; }
+.healthloq-widget-btn-loader { display: flex; align-items: center; justify-content: flex-start; }
