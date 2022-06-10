@@ -5,8 +5,8 @@
 .healthloq-widget-accordion-tab { background-color: rgb(225 220 220 / 60%) !important; }
 .healthloq-widget-accordion-details { }
 /*.dialog_contact div div { width: 100%; }*/
-.healthloq-widget-dialog_contact div div { max-width: 800px; }
-.healthloq-widget-dialog_contact_no_data div div { width: 100%; box-sizing: border-box; }
+.healthloq-widget-dialog_contact > div > div { max-width: 800px; }
+.healthloq-widget-dialog_contact_no_data > div > div { width: 100%; box-sizing: border-box; }
 .MuiDialogContent-root.css-ypiqx9-MuiDialogContent-root { box-sizing: border-box; }
 .healthloq-widget-dialog-actions { box-sizing: border-box; }
 .healthloq-widget-main-content-section { display: flex; align-items: center; }
@@ -14,9 +14,7 @@
 .healthloq-widget-main-content-section div img { width: 100%; max-width: 200px; max-height: 200px; object-fit: contain; }
 .healthloq-widget-circular-progress { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255,255,255,0.5); z-index: 1; }
 .healthloq-widget-btn-loader { display: flex; align-items: center; justify-content: flex-start; }
-
-
-.healthloq-widget-upload-btn { border-radius: 5px; padding: 8px 15px; background-color: rgba(0,121,55,.7098039215686275); color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 120px; }
-.healthloq-widget-upload-btn > img { margin-right: 10px; }
+.healthloq-widget-upload-btn { border-radius: 5px; padding: 8px 15px; background-color: rgba(0,121,55,.7098039215686275); color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 85px; }
+.healthloq-widget-upload-btn > svg { margin-right: 10px; }
 .healthloq-widget-uploadedImageName { margin-left: 10px; color: #ccc; }
 .healthloq-widget-headerBlockchainVerifyProofBox { width: 100%; display: flex; justify-content: flex-start; align-items: center; }
