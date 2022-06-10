@@ -21,6 +21,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import CircularProgress from '@mui/material/CircularProgress';
+const uploadIcon = "/assets/upload-icon.svg";
 
 
 function App({ domElement }) {
@@ -171,7 +172,28 @@ function App({ domElement }) {
                   <form method="POST" onSubmit={handleSubmit} enctype="multipart/form-data">
                     <b>Document to be verified:</b>
                     <br/><br/>
-                    <input type="file" name="blockchain_proof" id="blockchain_proof" onChange={(e) => {setblockchainProofDocument(e.target.files[0]); setviewMessage(""); setBlockchainDataNotFound("");}} />
+                    <label></label>
+
+
+                    <div className="healthloq-widget-headerBlockchainVerifyProofBox mb20">
+                      <input
+                        type="file"
+                        id="blockchain_proof" 
+                        onChange={(e) => {setblockchainProofDocument(e.target.files[0]); setviewMessage(""); setBlockchainDataNotFound("");}}
+                        style={{ display: "none" }}
+                      />
+                      <label for="blockchain_proof">
+                        <div className="healthloq-widget-upload-btn">
+                          <img src={uploadIcon} alt="Upload Icon" />
+                          Upload
+                        </div>
+                      </label>
+                      {blockchainProofDocument && (
+                        <p className="healthloq-widget-uploadedImageName">{blockchainProofDocument?.name}</p>
+                      )}
+                    </div>
+
+
                     { viewMessage
                       ?
                         <p style={{ color:"green" }}>{viewMessage}</p>
