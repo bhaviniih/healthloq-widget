@@ -157,7 +157,10 @@ function App({ domElement }) {
               aria-describedby="modal-modal-description"
               className={blockchainProofData?.data?.Title ? "healthloq-widget-dialog_contact" : "healthloq-widget-dialog_contact_no_data" }
             >
-              <DialogTitle id="alert-dialog-title">
+              <DialogTitle id="alert-dialog-title" className="healthloq-widget-header">
+                <a href={`${process.env.REACT_APP_CLIENT_URL_UI}`} target="_blank" className="healthloq">
+                  <img src={`${process.env.REACT_APP_CLIENT_URL_UI}/assets/images/logo/healthloq.png`} alt="Healthloq" title="Healthloq" className="healthloq" />
+                </a>
                 Blockchain Proof
               </DialogTitle>
               <DialogContent className="healthloq-widget-dialog-actions">
@@ -589,7 +592,10 @@ function App({ domElement }) {
                 }
 
               </DialogContent>
-              <DialogActions>
+              <DialogActions className="healthloq-widget-footer">
+                <p className="healthloq-widget-verified-by">
+                  Verified By <a href={`${process.env.REACT_APP_CLIENT_URL_UI}`} target="_blank">HealthLoq</a>
+                </p>
                 <Button className="healthloq-widget-btn-ui" onClick={handleClose} autoFocus>Close</Button>
               </DialogActions>
             </Dialog>
