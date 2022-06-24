@@ -18,3 +18,11 @@
 .healthloq-widget-upload-btn > svg { margin-right: 10px; }
 .healthloq-widget-uploadedImageName { margin-left: 10px; color: #ccc; }
 .healthloq-widget-headerBlockchainVerifyProofBox { width: 100%; display: flex; justify-content: flex-start; align-items: center; }
+/*.healthloq-logo-parent {  display: flex; align-items: center; }
+.healthloq-logo-parent img.healthloq { width: 50px; margin-right: 10px; cursor: pointer; }*/
+p.healthloq-widget-verified-by { margin-right: auto; font-family: "Roboto","Helvetica","Arial",sans-serif; margin: 0; margin-right: auto; }
+p.healthloq-widget-verified-by a { color: rgba(0,121,55,0.7) !important; }
+.healthloq-widget-footer { border-top: 1px solid rgb(204, 204, 204) !important; padding-left: 25px !important; padding-right: 25px !important; }
+.healthloq-widget-header { display: flex; align-items: center; border-bottom: 1px solid rgb(204, 204, 204); margin-bottom: 20px !important; }
+.healthloq-widget-header img.healthloq { width: 50px; margin-right: 10px; cursor: pointer; }
+.healthloq-widget-header a.healthloq { display: flex; align-items: center; justify-content: flex-start; }

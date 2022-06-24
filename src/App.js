@@ -175,7 +175,24 @@ function App({ domElement }) {
               : "healthloq-widget-dialog_contact_no_data"
           }
         >
-          <DialogTitle id="alert-dialog-title">Blockchain Proof</DialogTitle>
+          <DialogTitle
+            id="alert-dialog-title"
+            className="healthloq-widget-header"
+          >
+            <a
+              href={`${process.env.REACT_APP_CLIENT_URL_UI}`}
+              target="_blank"
+              className="healthloq"
+            >
+              <img
+                src={`${process.env.REACT_APP_CLIENT_URL_UI}/assets/images/logo/healthloq.png`}
+                alt="Healthloq"
+                title="Healthloq"
+                className="healthloq"
+              />
+            </a>
+            Blockchain Proof
+          </DialogTitle>
           <DialogContent className="healthloq-widget-dialog-actions">
             {/*!popupLoading &&
                   <div className="healthloq-widget-circular-progress">
@@ -796,7 +813,16 @@ function App({ domElement }) {
               ""
             )}
           </DialogContent>
-          <DialogActions>
+          <DialogActions className="healthloq-widget-footer">
+            <p className="healthloq-widget-verified-by">
+              Verified By{" "}
+              <a
+                href={`${process.env.REACT_APP_CLIENT_URL_UI}`}
+                target="_blank"
+              >
+                HealthLoq
+              </a>
+            </p>
             <Button
               className="healthloq-widget-btn-ui"
               onClick={handleClose}
