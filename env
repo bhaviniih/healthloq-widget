@@ -1,5 +1,0 @@
-#REACT_APP_API_URL=http://localhost:3005
-#REACT_APP_API_URL=https://healthloqserviceapi-dev.azurewebsites.net
-REACT_APP_API_URL=https://api.healthloq.com
-REACT_APP_CLIENT_URL_UI=https://healthloq.com
-#REACT_APP_CLIENT_URL_UI=https://healthloqclientapp-dev.azurewebsites.net
