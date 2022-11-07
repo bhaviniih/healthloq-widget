@@ -184,3 +184,63 @@
         margin: 0px auto !important;
     }
 }
+.healthloq-widget-document-hash-detail{
+    width: 100%;
+    display: flex;
+    flex-direction: column;    
+}
+
+.healthloq-widget-document-hash-detail h4{
+    font-weight: 600;
+    letter-spacing: 0.00938em;
+    margin-bottom: 10px;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+}
+
+.healthloq-widget-document-hash-detail > div{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.healthloq-widget-document-hash-detail > div > div:nth-child(1){
+    width: 60px;
+    height: 60px;
+    margin-right: 10px; 
+}
+.healthloq-widget-document-hash-detail > div > div:nth-child(1) > img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+}
+.healthloq-widget-document-hash-detail > div > div:nth-child(2){
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.healthloq-widget-document-hash-detail > div > div:nth-child(2)>h6{
+    font-weight: 600;
+    margin: 0;
+    margin-right: 5px;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.00938em;
+}
+
+.healthloq-widget-document-hash-detail >div>div:nth-child(2)>p{
+    text-transform: capitalize;
+    margin: 0;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    letter-spacing: 0.00938em;
+}
+
+.healthloq-widget-document-hash-detail p {
+    font-family:  "Roboto","Helvetica","Arial",sans-serif;
+    letter-spacing: 0.00938em;
+}
+
+.healthloq-widget-document-hash-detail p span{
+    font-weight: 600;
+}

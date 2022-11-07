@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
+import moment from "moment";
 import {
   Box,
   Grid,
@@ -59,6 +60,8 @@ const getIcon = (icon) => {
 };
 
 function App({ domElement }) {
+  const [documentVerificationResponse, setDocumentVerificationResponse] =
+    useState(null);
   const [document, setDocument] = useState(null);
   const [documentLoading, setDocumentLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -77,6 +80,7 @@ function App({ domElement }) {
     setBlockchainProofData([]);
     setOpen(false);
     setOpenShowProofDialog(false);
+    setDocumentVerificationResponse(null);
   };
 
   const handleOpen = () => {
@@ -120,37 +124,45 @@ function App({ domElement }) {
         .then((response) => response.json())
         .then((data) => {
           setDocumentLoading(false);
+          setDocumentVerificationResponse(data);
           if (data.isVerifyDocument === true) {
             messageHandler("Verified match on the blockchain.", "success");
-            setProductDetailLoading(true);
-            const productType = domElement.getAttribute("data-type");
-            const requestOptions = {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ id: data.integrantId, type: productType }),
-            };
-            fetch(
-              process.env.REACT_APP_API_URL + "/client-app/verify",
-              requestOptions
-            )
-              .then((response) => response.json())
-              .then((data) => {
-                setProductDetailLoading(false);
-                if (!data?.data?.IntegrantId) {
+            if (data.integrantId) {
+              setProductDetailLoading(true);
+              const productType = domElement.getAttribute("data-type");
+              const requestOptions = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  id: data.integrantId,
+                  type: productType,
+                }),
+              };
+              fetch(
+                process.env.REACT_APP_API_URL + "/client-app/verify",
+                requestOptions
+              )
+                .then((response) => response.json())
+                .then((data) => {
+                  setProductDetailLoading(false);
+                  if (!data?.data?.IntegrantId) {
+                    setBlockchainProofData([]);
+                    messageHandler("Blockchain data not found!");
+                  } else {
+                    setBlockchainProofData(data);
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                  setProductDetailLoading(false);
                   setBlockchainProofData([]);
-                  messageHandler("Blockchain data not found!");
-                } else {
-                  setBlockchainProofData(data);
-                }
-              })
-              .catch((e) => {
-                console.log(e);
-                setProductDetailLoading(false);
-                setBlockchainProofData([]);
-                messageHandler(
-                  "Something went wrong! Please try after sometime."
-                );
-              });
+                  messageHandler(
+                    "Something went wrong! Please try after sometime."
+                  );
+                });
+            } else {
+              setBlockchainProofData([]);
+            }
           } else {
             setBlockchainProofData([]);
             messageHandler("Not a verified match on the blockchain.");
@@ -217,6 +229,7 @@ function App({ domElement }) {
                   onChange={(e) => {
                     if (e?.target?.files?.length) {
                       setDocument(e.target.files[0]);
+                      setDocumentVerificationResponse(null);
                     }
                   }}
                 />
@@ -265,6 +278,37 @@ function App({ domElement }) {
                 </Typography>
               </Grid>
             )}
+            {!Boolean(documentVerificationResponse?.integrantId) &&
+              documentVerificationResponse?.isVerifyDocument && (
+                <div className="healthloq-widget-document-hash-detail">
+                  <h4>Document Submitted By:</h4>
+                  <div>
+                    <div>
+                      <img
+                        src={
+                          documentVerificationResponse?.data?.organization
+                            ?.logo_url
+                        }
+                        alt="Organization Logo"
+                      />
+                    </div>
+                    <div>
+                      <h6>Organization Name:</h6>
+                      <p>
+                        {documentVerificationResponse?.data?.organization?.name}
+                      </p>
+                    </div>
+                  </div>
+                  <p>
+                    Document Submitted At:&nbsp;
+                    <span>
+                      {moment(
+                        documentVerificationResponse?.data?.created_on
+                      ).format("MM/DD/YYYY hh:mm A")}
+                    </span>
+                  </p>
+                </div>
+              )}
             {productDetailLoading && (
               <Grid item sx={{ mb: 1 }}>
                 <Typography
