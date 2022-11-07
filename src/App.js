@@ -300,7 +300,7 @@ function App({ domElement }) {
                     </div>
                   </div>
                   <p>
-                    Document Submitted At:&nbsp;
+                    Document Submitted At:
                     <span>
                       {moment(
                         documentVerificationResponse?.data?.created_on

@@ -192,9 +192,11 @@
 
 .healthloq-widget-document-hash-detail h4{
     font-weight: 600;
-    letter-spacing: 0.00938em;
+    letter-spacing: 0.0075em;
     margin-bottom: 10px;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-size: 1.25rem;
+    line-height: 1.6;
 }
 
 .healthloq-widget-document-hash-detail > div{
@@ -226,6 +228,7 @@
     margin-right: 5px;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
     font-size: 16px;
+    line-height: 1.5;
     letter-spacing: 0.00938em;
 }
 
@@ -234,6 +237,8 @@
     margin: 0;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
     letter-spacing: 0.00938em;
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .healthloq-widget-document-hash-detail p {
@@ -243,4 +248,7 @@
 
 .healthloq-widget-document-hash-detail p span{
     font-weight: 600;
+    margin-left: 5px;
+    font-size: 16px;
+    line-height: 1.5;
 }

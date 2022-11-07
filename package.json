@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "env-cmd": "^10.1.0",
     "moment": "^2.29.4",
     "parcel": "^2.6.0",
     "parcel-bundler": "^1.12.5",
@@ -22,6 +23,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build:widget": "parcel build src/index.js --no-source-maps",
+    "build:dev": "env-cmd -f .env.dev parcel build src/index.js --no-source-maps",
+    "build:qa": "env-cmd -f .env.qa parcel build src/index.js --no-source-maps",
+    "build:prod": "env-cmd -f .env.production parcel build src/index.js --no-source-maps",
+    "build:local": "env-cmd -f .env.local parcel build src/index.js --no-source-maps",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
