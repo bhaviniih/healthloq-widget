@@ -1,16 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import { ThemeProvider } from "@mui/material";
+import React from "react";
+import App from "./App";
+import { theme } from "./theme";
 
-// Find all widget divs
-const WidgetDivs = document.querySelectorAll('.healthloq-widget-blockchain-proof')
-
-// Inject our React App into each
-WidgetDivs.forEach(Div => {
-  ReactDOM.render(
-    <React.StrictMode>
-      <App domElement={Div} />
-    </React.StrictMode>,
-    Div
-  );
-})
+import { createRoot } from "react-dom/client";
+const container = document.getElementById("healthloq-widget-blockchain-proof");
+const root = createRoot(container);
+root.render(
+  <React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <App domElement={container} />
+    </ThemeProvider>
+  </React.StrictMode>
+);
