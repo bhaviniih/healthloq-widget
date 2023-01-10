@@ -28,9 +28,7 @@ const UploadIcon = () => (
 );
 
 const useStyle = makeStyles((theme) => ({
-  dialogContent: {},
-  dialogActions: {},
-  blockchainProofContainer: {
+  healthloqWidgetBlockchainProofContainer: {
     "&>*:not(:last-child)": {
       marginBottom: 100,
       position: "relative",
@@ -225,7 +223,7 @@ export default function BlockchainProofDialog({
         </Link>
         Blockchain Proof
       </DialogTitle>
-      <DialogContent className={classes.dialogContent}>
+      <DialogContent>
         <Typography variant="body1">Document to be verified:</Typography>
         {documentFile && (
           <Typography
@@ -293,7 +291,7 @@ export default function BlockchainProofDialog({
                 display="flex"
                 alignItems={"center"}
               >
-                {documentVerificationData?.message}&nbsp;
+                {documentVerificationData?.message}{" "}
                 {documentVerificationData?.isVerifyDocument ? (
                   <img
                     src={`${process.env.REACT_APP_CLIENT_URL_UI}/assets/images/icon/icon-correct.png`}
@@ -315,11 +313,11 @@ export default function BlockchainProofDialog({
             alignItems={"center"}
             justifyContent="center"
           >
-            Please wait while we are fetching the product detail...&nbsp;
+            Please wait while we are fetching the product detail...{" "}
             <CircularProgress size={20} />
           </Typography>
         )}
-        <Box className={classes.blockchainProofContainer}>
+        <Box className={classes.healthloqWidgetBlockchainProofContainer}>
           {documentVerificationData?.integrantId &&
             !exhibitBlockchainProofData?.isLoading &&
             typeof exhibitBlockchainProofData?.result === "boolean" && (
@@ -332,7 +330,7 @@ export default function BlockchainProofDialog({
               alignItems={"center"}
               justifyContent="center"
             >
-              Please wait while we are fetching the document detail...&nbsp;
+              Please wait while we are fetching the document detail...{" "}
               <CircularProgress size={20} />
             </Typography>
           )}
@@ -349,7 +347,7 @@ export default function BlockchainProofDialog({
               alignItems={"center"}
               justifyContent="center"
             >
-              Please wait while we are fetching the document detail...&nbsp;
+              Please wait while we are fetching the document detail...{" "}
               <CircularProgress size={20} />
             </Typography>
           )}
@@ -361,12 +359,9 @@ export default function BlockchainProofDialog({
             )}
         </Box>
       </DialogContent>
-      <DialogActions
-        className={classes.dialogActions}
-        justifycontent="space-between"
-      >
+      <DialogActions justifycontent="space-between">
         <Typography variant="body1">
-          Verified By&nbsp;
+          Verified By{" "}
           <Link
             href={`${process.env.REACT_APP_CLIENT_URL_UI}`}
             target={"_blank"}

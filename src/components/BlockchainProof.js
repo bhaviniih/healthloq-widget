@@ -4,12 +4,12 @@ import React, { useState } from "react";
 import ProductInfoDialog from "./ProductInfoDialog";
 
 const useStyle = makeStyles((theme) => ({
-  blockchainProofBox: {
+  healthloqWidgetBlockchainProofBox: {
     border: `2px solid ${theme.palette.primary.main}`,
     borderRadius: 10,
     padding: 20,
   },
-  productInfoDiv: {
+  healthloqWidgetpPoductInfoDiv: {
     "&>div": {
       "&:first-child": {
         "&>*:not(:last-child)": {
@@ -31,7 +31,7 @@ export default function BlockchainProof({ blockchainProof }) {
   const [openShowProofDialog, setOpenShowProofDialog] = useState(false);
   return (
     <Box
-      className={classes.blockchainProofBox}
+      className={classes.healthloqWidgetBlockchainProofBox}
       display="flex"
       flexDirection={"column"}
     >
@@ -47,7 +47,7 @@ export default function BlockchainProof({ blockchainProof }) {
         justifyContent={"flex-start"}
         sx={{ mt: 2, mb: 0.5 }}
       >
-        Status: {blockchainProof?.result ? "Verified" : "Not Verified"}&nbsp;
+        Status: {blockchainProof?.result ? "Verified" : "Not Verified"}{" "}
         {blockchainProof?.result ? (
           <img
             src={`${process.env.REACT_APP_CLIENT_URL_UI}/assets/images/icon/icon-correct.png`}
@@ -60,7 +60,11 @@ export default function BlockchainProof({ blockchainProof }) {
           />
         )}
       </Typography>
-      <Grid container spacing={1} className={classes.productInfoDiv}>
+      <Grid
+        container
+        spacing={1}
+        className={classes.healthloqWidgetpPoductInfoDiv}
+      >
         <Grid
           item
           xs={12}

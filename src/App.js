@@ -24,7 +24,7 @@ const BlockchainProofIcon = () => (
 );
 
 const useStyle = makeStyles((theme) => ({
-  blockChainProofBtn: {
+  healthloqWidgetBlockChainProofBtn: {
     padding: 10,
     borderRadius: "0 5px 5px 0",
     cursor: "pointer",
@@ -58,7 +58,7 @@ export default function App(props) {
   return (
     <Box>
       <Box
-        className={classes.blockChainProofBtn}
+        className={classes.healthloqWidgetBlockChainProofBtn}
         display="flex"
         alignItems={"center"}
         justifyContent="flex-start"

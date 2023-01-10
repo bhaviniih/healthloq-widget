@@ -66,7 +66,7 @@ let documentHashLabels = {
 };
 
 const useStyle = makeStyles((theme) => ({
-  tableRow: {
+  healthloqWidgetTableRow: {
     "&>td": {
       border: `1px solid ${theme.palette.borderColor}`,
     },
@@ -87,8 +87,8 @@ export default function ProductInfoDialog({
       <DialogTitle>
         {data?.type === "organization_exhibit" || data?.type === "document_hash"
           ? "Document"
-          : "Product"}
-        &nbsp;Info
+          : "Product"}{" "}
+        Info
       </DialogTitle>
       <DialogContent>
         <Table>
@@ -101,7 +101,7 @@ export default function ProductInfoDialog({
                 : productInfoLables
             ).map((item, key) => {
               return (
-                <TableRow key={key} className={classes.tableRow}>
+                <TableRow key={key} className={classes.healthloqWidgetTableRow}>
                   <TableCell>{item[1]}</TableCell>
                   <TableCell>{data[item[0]]}</TableCell>
                 </TableRow>
