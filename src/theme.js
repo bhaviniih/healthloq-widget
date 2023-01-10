@@ -30,7 +30,21 @@ export const theme = createTheme({
             },
           }),
         },
+        {
+          props: { keyfontweight: 700 },
+          style: ({ theme, ownerState }) => ({
+            "&>span": {
+              fontWeight: ownerState?.keyfontweight,
+              marginRight: 10,
+            },
+          }),
+        },
       ],
+      styleOverrides: {
+        root: ({ ownerState, theme }) => ({
+          lineBreak: "anywhere",
+        }),
+      },
     },
     MuiButton: {
       variants: [],
@@ -48,7 +62,9 @@ export const theme = createTheme({
         }),
         startIcon: ({ theme, ownerState }) => ({
           "&>svg": {
-            fill: ownerState?.fill,
+            fill: ownerState?.disabled
+              ? "rgba(0, 0, 0, 0.26) "
+              : ownerState?.fill,
             width: 20,
             height: 20,
           },
