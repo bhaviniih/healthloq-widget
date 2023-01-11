@@ -59,6 +59,7 @@ export const theme = createTheme({
               ? theme.palette.common.white
               : ownerState?.color,
           textTransform: "capitalize",
+          height: 36,
         }),
         startIcon: ({ theme, ownerState }) => ({
           "&>svg": {

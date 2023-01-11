@@ -8,6 +8,9 @@ const useStyle = makeStyles((theme) => ({
     border: `2px solid ${theme.palette.primary.main}`,
     borderRadius: 10,
     padding: 20,
+    "& img": {
+      marginLeft: 5,
+    },
   },
   healthloqWidgetpPoductInfoDiv: {
     "&>div": {
@@ -47,7 +50,7 @@ export default function BlockchainProof({ blockchainProof }) {
         justifyContent={"flex-start"}
         sx={{ mt: 2, mb: 0.5 }}
       >
-        Status: {blockchainProof?.result ? "Verified" : "Not Verified"}{" "}
+        Status: {blockchainProof?.result ? "Verified" : "Not Verified"}
         {blockchainProof?.result ? (
           <img
             src={`${process.env.REACT_APP_CLIENT_URL_UI}/assets/images/icon/icon-correct.png`}

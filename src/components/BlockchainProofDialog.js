@@ -290,8 +290,13 @@ export default function BlockchainProofDialog({
                 }
                 display="flex"
                 alignItems={"center"}
+                sx={{
+                  "&>img": {
+                    marginLeft: 0.5,
+                  },
+                }}
               >
-                {documentVerificationData?.message}{" "}
+                {documentVerificationData?.message}
                 {documentVerificationData?.isVerifyDocument ? (
                   <img
                     src={`${process.env.REACT_APP_CLIENT_URL_UI}/assets/images/icon/icon-correct.png`}
@@ -313,8 +318,8 @@ export default function BlockchainProofDialog({
             alignItems={"center"}
             justifyContent="center"
           >
-            Please wait while we are fetching the product detail...{" "}
-            <CircularProgress size={20} />
+            Please wait while we are fetching the product detail...
+            <CircularProgress size={20} sx={{ ml: 0.5 }} />
           </Typography>
         )}
         <Box className={classes.healthloqWidgetBlockchainProofContainer}>
@@ -330,8 +335,8 @@ export default function BlockchainProofDialog({
               alignItems={"center"}
               justifyContent="center"
             >
-              Please wait while we are fetching the document detail...{" "}
-              <CircularProgress size={20} />
+              Please wait while we are fetching the document detail...
+              <CircularProgress size={20} sx={{ ml: 0.5 }} />
             </Typography>
           )}
           {!orgExhibitBlockchainProofData?.isLoading &&
@@ -347,8 +352,8 @@ export default function BlockchainProofDialog({
               alignItems={"center"}
               justifyContent="center"
             >
-              Please wait while we are fetching the document detail...{" "}
-              <CircularProgress size={20} />
+              Please wait while we are fetching the document detail...
+              <CircularProgress size={20} sx={{ ml: 0.5 }} />
             </Typography>
           )}
           {!documentHashBlockchainProofData?.isLoading &&
@@ -361,8 +366,9 @@ export default function BlockchainProofDialog({
       </DialogContent>
       <DialogActions justifycontent="space-between">
         <Typography variant="body1">
-          Verified By{" "}
+          Verified By
           <Link
+            sx={{ ml: 0.5 }}
             href={`${process.env.REACT_APP_CLIENT_URL_UI}`}
             target={"_blank"}
           >

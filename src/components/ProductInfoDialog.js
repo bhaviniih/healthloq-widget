@@ -86,8 +86,8 @@ export default function ProductInfoDialog({
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
       <DialogTitle>
         {data?.type === "organization_exhibit" || data?.type === "document_hash"
-          ? "Document"
-          : "Product"}{" "}
+          ? "Document "
+          : "Product "}
         Info
       </DialogTitle>
       <DialogContent>
