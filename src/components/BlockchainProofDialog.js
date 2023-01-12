@@ -29,7 +29,7 @@ const UploadIcon = () => (
 
 const useStyle = makeStyles((theme) => ({
   healthloqWidgetBlockchainProofContainer: {
-    "&>*:not(:last-child)": {
+    "&>div:not(:last-child)": {
       marginBottom: 100,
       position: "relative",
       "&::before": {
@@ -123,9 +123,7 @@ export default function BlockchainProofDialog({
           payload: response,
         });
       }
-      if (
-        documentVerificationData?.documentData?.type === "orgExhibitDocument"
-      ) {
+      if (documentVerificationData?.OrganizationExhibitId) {
         dispatch({
           type: "orgExhibitBlockchainProofData",
         });
@@ -133,7 +131,7 @@ export default function BlockchainProofDialog({
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            id: documentVerificationData?.documentData?.OrganizationExhibitId,
+            id: documentVerificationData?.OrganizationExhibitId,
             type: "organization_exhibit",
           }),
         });
@@ -142,10 +140,7 @@ export default function BlockchainProofDialog({
           payload: response,
         });
       }
-      if (
-        documentVerificationData?.documentData?.type === "docToolDocument" ||
-        documentVerificationData?.documentData?.documentHash?.documentHashId
-      ) {
+      if (documentVerificationData?.documentHashId) {
         dispatch({
           type: "documentHashBlockchainProofData",
         });
@@ -153,10 +148,7 @@ export default function BlockchainProofDialog({
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            id:
-              documentVerificationData?.documentData?.documentHashId ||
-              documentVerificationData?.documentData?.documentHash
-                ?.documentHashId,
+            id: documentVerificationData?.documentHashId,
             type: "document_hash",
           }),
         });
@@ -328,34 +320,38 @@ export default function BlockchainProofDialog({
             typeof exhibitBlockchainProofData?.result === "boolean" && (
               <BlockchainProof blockchainProof={exhibitBlockchainProofData} />
             )}
-          {orgExhibitBlockchainProofData?.isLoading && (
-            <Typography
-              variant="body1"
-              display="flex"
-              alignItems={"center"}
-              justifyContent="center"
-            >
-              Please wait while we are fetching the document detail...
-              <CircularProgress size={20} sx={{ ml: 0.5 }} />
-            </Typography>
-          )}
+          {orgExhibitBlockchainProofData?.isLoading &&
+            !exhibitBlockchainProofData?.isLoading && (
+              <Typography
+                variant="body1"
+                display="flex"
+                alignItems={"center"}
+                justifyContent="center"
+              >
+                Please wait while we are fetching the organization document
+                detail...
+                <CircularProgress size={20} sx={{ ml: 0.5 }} />
+              </Typography>
+            )}
           {!orgExhibitBlockchainProofData?.isLoading &&
             typeof orgExhibitBlockchainProofData?.result === "boolean" && (
               <BlockchainProof
                 blockchainProof={orgExhibitBlockchainProofData}
               />
             )}
-          {documentHashBlockchainProofData?.isLoading && (
-            <Typography
-              variant="body1"
-              display="flex"
-              alignItems={"center"}
-              justifyContent="center"
-            >
-              Please wait while we are fetching the document detail...
-              <CircularProgress size={20} sx={{ ml: 0.5 }} />
-            </Typography>
-          )}
+          {documentHashBlockchainProofData?.isLoading &&
+            !orgExhibitBlockchainProofData?.isLoading &&
+            !exhibitBlockchainProofData?.isLoading && (
+              <Typography
+                variant="body1"
+                display="flex"
+                alignItems={"center"}
+                justifyContent="center"
+              >
+                Please wait while we are fetching the document detail...
+                <CircularProgress size={20} sx={{ ml: 0.5 }} />
+              </Typography>
+            )}
           {!documentHashBlockchainProofData?.isLoading &&
             typeof documentHashBlockchainProofData?.result === "boolean" && (
               <BlockchainProof
