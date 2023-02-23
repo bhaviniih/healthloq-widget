@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Link, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { useState } from "react";
 import ProductInfoDialog from "./ProductInfoDialog";
@@ -111,8 +111,19 @@ export default function BlockchainProof({ blockchainProof }) {
             <Typography variant="h6">Digitally Signed By</Typography>
             <Typography variant="body1" keyfontweight={700}>
               <span>Organization Name:</span>
-              {blockchainProof?.data?.OrganizationName ||
-                blockchainProof?.data?.organization_name}
+              <Link
+                href={`${
+                  process.env.REACT_APP_CLIENT_URL_UI
+                }/organization-detail/${
+                  blockchainProof?.data?.OrganizationId ||
+                  blockchainProof?.data?.organization_id
+                }`}
+                target="_blank"
+                underline="hover"
+              >
+                {blockchainProof?.data?.OrganizationName ||
+                  blockchainProof?.data?.organization_name}
+              </Link>
             </Typography>
             <Typography variant="body1" keyfontweight={700}>
               <span>Organization Id:</span>
