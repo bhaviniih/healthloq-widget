@@ -72,6 +72,7 @@ export default function BlockchainProofDialog({
       exhibitBlockchainProofData,
       orgExhibitBlockchainProofData,
       documentHashBlockchainProofData,
+      labDocumentHashBlockchainProofData,
     },
     dispatch,
   ] = useReducerHook();
@@ -154,6 +155,23 @@ export default function BlockchainProofDialog({
         });
         dispatch({
           type: "documentHashBlockchainProofData",
+          payload: response,
+        });
+      }
+      if (documentVerificationData?.labDocumentHashId) {
+        dispatch({
+          type: "labDocumentHashBlockchainProofData",
+        });
+        const response = await getBlockchainProof({
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: documentVerificationData?.labDocumentHashId,
+            type: "document_hash",
+          }),
+        });
+        dispatch({
+          type: "labDocumentHashBlockchainProofData",
           payload: response,
         });
       }
@@ -356,6 +374,26 @@ export default function BlockchainProofDialog({
             typeof documentHashBlockchainProofData?.result === "boolean" && (
               <BlockchainProof
                 blockchainProof={documentHashBlockchainProofData}
+              />
+            )}
+          {labDocumentHashBlockchainProofData?.isLoading &&
+            !documentHashBlockchainProofData?.isLoading &&
+            !orgExhibitBlockchainProofData?.isLoading &&
+            !exhibitBlockchainProofData?.isLoading && (
+              <Typography
+                variant="body1"
+                display="flex"
+                alignItems={"center"}
+                justifyContent="center"
+              >
+                Please wait while we are fetching the lab document detail...
+                <CircularProgress size={20} sx={{ ml: 0.5 }} />
+              </Typography>
+            )}
+          {!labDocumentHashBlockchainProofData?.isLoading &&
+            typeof labDocumentHashBlockchainProofData?.result === "boolean" && (
+              <BlockchainProof
+                blockchainProof={labDocumentHashBlockchainProofData}
               />
             )}
         </Box>

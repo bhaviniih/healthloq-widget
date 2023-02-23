@@ -28,6 +28,12 @@ export const initialState = {
     data: null,
     blockAddress: null,
   },
+  labDocumentHashBlockchainProofData: {
+    isLoading: false,
+    result: null,
+    data: null,
+    blockAddress: null,
+  },
 };
 
 export const useReducerHook = () =>
@@ -85,6 +91,15 @@ export const useReducerHook = () =>
           documentHashBlockchainProofData: {
             ...state.documentHashBlockchainProofData,
             isLoading: !state.documentHashBlockchainProofData.isLoading,
+            ...payload,
+          },
+        };
+      case "labDocumentHashBlockchainProofData":
+        return {
+          ...state,
+          labDocumentHashBlockchainProofData: {
+            ...state.labDocumentHashBlockchainProofData,
+            isLoading: !state.labDocumentHashBlockchainProofData.isLoading,
             ...payload,
           },
         };
