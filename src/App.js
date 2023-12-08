@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { Box, Typography } from "@mui/material";
 import BlockchainProofDialog from "./components/BlockchainProofDialog";
@@ -55,22 +55,41 @@ export default function App(props) {
   const classes = useStyle();
   const [openBlockchainProofDialog, setOpenBlockchainProofDialog] =
     useState(false);
+  let title =
+    props.domElement.getAttribute("data-icon-title") || "Blockchain Proof";
+  let customWidgetClassName = props.domElement.getAttribute(
+    "data-custom-icon-classname"
+  );
+  useEffect(() => {
+    if (Boolean(customWidgetClassName)) {
+      let el = document.querySelectorAll(`.${customWidgetClassName}`);
+      if (el?.length) {
+        el.forEach((element) => {
+          if (element) {
+            element.addEventListener("click", () => {
+              if (!openBlockchainProofDialog) {
+                setOpenBlockchainProofDialog(true);
+              }
+            });
+          }
+        });
+      }
+    }
+  }, [customWidgetClassName]);
   return (
     <Box>
-      <Box
-        className={classes.healthloqWidgetBlockChainProofBtn}
-        display="flex"
-        alignItems={"center"}
-        justifyContent="flex-start"
-        onClick={() => setOpenBlockchainProofDialog(true)}
-      >
-        <Typography variant="body1">
-          {props.domElement.ariaLabel
-            ? props.domElement.ariaLabel
-            : "Blockchain Proof"}
-        </Typography>
-        <BlockchainProofIcon />
-      </Box>
+      {!Boolean(customWidgetClassName) && (
+        <Box
+          className={classes.healthloqWidgetBlockChainProofBtn}
+          display="flex"
+          alignItems={"center"}
+          justifyContent="flex-start"
+          onClick={() => setOpenBlockchainProofDialog(true)}
+        >
+          <Typography variant="body1">{title}</Typography>
+          <BlockchainProofIcon />
+        </Box>
+      )}
       <BlockchainProofDialog
         {...props}
         open={openBlockchainProofDialog}

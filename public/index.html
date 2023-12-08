@@ -15,7 +15,12 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -29,14 +34,20 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
 
-
     <!-- 
       When using your widget, you want to give people the chance to resize it to their needs 
     -->
 
+    <button class="healthloq-widget-blockchain-proof">Click</button>
     <!-- Here's an example of how others can set their own styling -->
-    <div style="margin: 100px auto; max-width: 500px;">
-      <div id="healthloq-widget-blockchain-proof" data-organization-id="60b0f10f-b358-4fb2-91cf-497daec918ff" data-type="integrant"></div>
+    <div style="margin: 100px auto; max-width: 500px">
+      <div
+        id="healthloq-widget-blockchain-proof"
+        data-organization-id="60b0f10f-b358-4fb2-91cf-497daec918ff"
+        data-type="integrant"
+        data-icon-title="Blockchain"
+        data-custom-icon-classname="healthloq-widget-blockchain-proof"
+      ></div>
       <!-- organization/producer id -->
     </div>
   </body>
