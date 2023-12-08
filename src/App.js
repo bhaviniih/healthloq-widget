@@ -64,7 +64,11 @@ export default function App(props) {
         justifyContent="flex-start"
         onClick={() => setOpenBlockchainProofDialog(true)}
       >
-        <Typography variant="body1">Blockchain Proof</Typography>
+        <Typography variant="body1">
+          {props.domElement.ariaLabel
+            ? props.domElement.ariaLabel
+            : "Blockchain Proof"}
+        </Typography>
         <BlockchainProofIcon />
       </Box>
       <BlockchainProofDialog
