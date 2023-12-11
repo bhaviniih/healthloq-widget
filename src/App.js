@@ -55,8 +55,10 @@ export default function App(props) {
   const classes = useStyle();
   const [openBlockchainProofDialog, setOpenBlockchainProofDialog] =
     useState(false);
-  let title =
-    props.domElement.getAttribute("data-icon-title") || "Blockchain Proof";
+  let title = props.domElement.getAttribute("data-icon-title");
+  if (!title || !title?.trim()) {
+    title = "Blockchain Proof";
+  }
   let customWidgetClassName = props.domElement.getAttribute(
     "data-custom-icon-classname"
   );
