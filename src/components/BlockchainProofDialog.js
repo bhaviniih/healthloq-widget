@@ -11,9 +11,13 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { useEffect, useState } from "react";
-import { getBlockchainProof, verifyDocument } from "../apis";
+import { getBlockchainProof, verifyDocument, verifyCoaDocument } from "../apis";
 import { useReducerHook } from "../hooks/useReducerHook";
 import BlockchainProof from "./BlockchainProof";
+import VerifiedDocumentInfo from "./common/VerifiedDocumentInfo";
+import VerifiedOrganizationInfo from "./common/VerifiedOrganizationInfo";
+import HashNotVerifiedErrorMsg from "./common/HashNotVerifiedErrorMsg";
+
 const UploadIcon = () => (
   <svg
     width="20"
@@ -55,7 +59,18 @@ const useStyle = makeStyles((theme) => ({
         transform: "translateX(-50%) scaleX(-1)",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='25' viewBox='0 0 20 25' fill='none' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath d='M16.8664 10.1578H5.26193V6.74505C5.25926 4.39682 7.16921 2.48682 9.5145 2.48414C11.8627 2.48414 13.7727 4.39434 13.7754 6.73965C13.7781 6.98639 13.8779 7.21361 14.0415 7.3745C14.2051 7.53807 14.4269 7.63787 14.6763 7.63787H15.3611C15.86 7.63787 16.262 7.23584 16.262 6.7396H16.2594C16.2566 3.02188 13.2322 -0.00247373 9.51431 1.51829e-06C5.79678 0.00270885 2.77518 3.02733 2.77518 6.74505L2.77789 10.1578H2.31203C1.03401 10.1578 -0.00291464 11.1974 6.15529e-06 12.4754V22.6358C6.15529e-06 23.9139 1.03961 24.9508 2.31763 24.9508L16.728 24.9425C18.006 24.9425 19.043 23.9056 19.04 22.6275V12.4647C19.04 11.2365 18.078 10.2329 16.8665 10.158L16.8664 10.1578Z' fill='white' /%3E%3C/svg%3E")`,
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath d='M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z' fill='white' /%3E%3C/svg%3E")`,
+      },
+    },
+    "& .blockchain-proof-error-msg": {
+      "&:not(:last-child)": {
+        "&::before": {
+          backgroundColor: theme.palette.error.main,
+        },
+        "&::after": {
+          backgroundColor: theme.palette.error.main,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath d='M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h2c0-1.66 1.34-3 3-3s3 1.34 3 3v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm0 12H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z' fill='white' /%3E%3C/svg%3E")`,
+        },
       },
     },
   },
@@ -73,6 +88,8 @@ export default function BlockchainProofDialog({
       orgExhibitBlockchainProofData,
       documentHashBlockchainProofData,
       labDocumentHashBlockchainProofData,
+      verifyCoaDocumentData,
+      activeOrgDocuments,
     },
     dispatch,
   ] = useReducerHook();
@@ -80,138 +97,258 @@ export default function BlockchainProofDialog({
   const [documentFile, setDocumentFile] = useState(null);
 
   const handleVerifyDocument = async () => {
-    dispatch({
-      type: "setInitialState",
-    });
-    const productId = domElement.getAttribute("data-product-id");
     const organizationId = domElement.getAttribute("data-organization-id");
+    // dispatch({
+    //   type: "setInitialState",
+    // });
+    // const productId = domElement.getAttribute("data-product-id");
+    // const formData = new FormData();
+    // formData.append("id", productId);
+    // formData.append("organization_id", organizationId);
+    // formData.append("type", "exhibit");
+    // formData.append("files[]", documentFile);
+    // const params = {
+    //   method: "POST",
+    //   body: formData,
+    // };
+    // dispatch({
+    //   type: "documentVerificationData",
+    // });
+    // const response = await verifyDocument(params);
+    // dispatch({
+    //   type: "documentVerificationData",
+    //   payload: response,
+    // });
     const formData = new FormData();
-    formData.append("id", productId);
-    formData.append("organization_id", organizationId);
-    formData.append("type", "exhibit");
-    formData.append("files[]", documentFile);
-    const params = {
-      method: "POST",
-      body: formData,
-    };
+    formData.append("coaFile", documentFile);
+    if (organizationId) {
+      formData.append("organization_id", organizationId);
+    }
     dispatch({
-      type: "documentVerificationData",
+      type: "VERIFY_COA_DOCUMENT_LOADING",
+      payload: {
+        loading: true,
+        activeOrgDocuments: [],
+      },
     });
-    const response = await verifyDocument(params);
-    dispatch({
-      type: "documentVerificationData",
-      payload: response,
-    });
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (documentVerificationData?.integrantId) {
-        dispatch({
-          type: "exhibitBlockchainProofData",
-        });
-        const productType = domElement.getAttribute("data-type");
-        const response = await getBlockchainProof({
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            id: documentVerificationData?.integrantId,
-            type: productType,
-          }),
-        });
-        dispatch({
-          type: "exhibitBlockchainProofData",
-          payload: response,
-        });
-      }
-      if (documentVerificationData?.OrganizationExhibitId) {
-        dispatch({
-          type: "orgExhibitBlockchainProofData",
-        });
-        const response = await getBlockchainProof({
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            id: documentVerificationData?.OrganizationExhibitId,
-            type: "organization_exhibit",
-          }),
-        });
-        dispatch({
-          type: "orgExhibitBlockchainProofData",
-          payload: response,
-        });
-      }
-      if (documentVerificationData?.documentHashId) {
-        dispatch({
-          type: "documentHashBlockchainProofData",
-        });
-        const response = await getBlockchainProof({
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            id: documentVerificationData?.documentHashId,
-            type: "document_hash",
-          }),
-        });
-        dispatch({
-          type: "documentHashBlockchainProofData",
-          payload: response,
-        });
-      }
-      if (documentVerificationData?.labDocumentHashId) {
-        dispatch({
-          type: "labDocumentHashBlockchainProofData",
-        });
-        const response = await getBlockchainProof({
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            id: documentVerificationData?.labDocumentHashId,
-            type: "document_hash",
-          }),
-        });
-        dispatch({
-          type: "labDocumentHashBlockchainProofData",
-          payload: response,
-        });
-      }
+    const response = await verifyCoaDocument(formData);
+    if (response?.status === "1") {
       dispatch({
-        type: "updateDocumentVerificationData",
+        type: "VERIFY_COA_DOCUMENT_SUCCESS",
         payload: {
-          blockchainProofApiFlag: false,
+          ...response,
+          loading: false,
+          activeOrgDocuments: [],
         },
       });
-    };
-    if (
-      !documentVerificationData?.isLoading &&
-      documentVerificationData?.blockchainProofApiFlag
-    ) {
-      fetchData();
+    } else {
+      dispatch({
+        type: "VERIFY_COA_DOCUMENT_LOADING",
+        payload: {
+          loading: false,
+          activeOrgDocuments: [],
+        },
+      });
     }
-  }, [documentVerificationData?.blockchainProofApiFlag]);
+  };
 
-  useEffect(() => {
-    if (documentVerificationData?.message) {
-      setTimeout(() => {
-        dispatch({
-          type: "documentVerificationData",
-          payload: {
-            message: "",
-            isLoading: false,
-          },
-        });
-      }, 15000);
-    }
-  }, [documentVerificationData?.message]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (documentVerificationData?.integrantId) {
+  //       dispatch({
+  //         type: "exhibitBlockchainProofData",
+  //       });
+  //       const productType = domElement.getAttribute("data-type");
+  //       const response = await getBlockchainProof({
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({
+  //           id: documentVerificationData?.integrantId,
+  //           type: productType,
+  //         }),
+  //       });
+  //       dispatch({
+  //         type: "exhibitBlockchainProofData",
+  //         payload: response,
+  //       });
+  //     }
+  //     if (documentVerificationData?.OrganizationExhibitId) {
+  //       dispatch({
+  //         type: "orgExhibitBlockchainProofData",
+  //       });
+  //       const response = await getBlockchainProof({
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({
+  //           id: documentVerificationData?.OrganizationExhibitId,
+  //           type: "organization_exhibit",
+  //         }),
+  //       });
+  //       dispatch({
+  //         type: "orgExhibitBlockchainProofData",
+  //         payload: response,
+  //       });
+  //     }
+  //     if (documentVerificationData?.documentHashId) {
+  //       dispatch({
+  //         type: "documentHashBlockchainProofData",
+  //       });
+  //       const response = await getBlockchainProof({
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({
+  //           id: documentVerificationData?.documentHashId,
+  //           type: "document_hash",
+  //         }),
+  //       });
+  //       dispatch({
+  //         type: "documentHashBlockchainProofData",
+  //         payload: response,
+  //       });
+  //     }
+  //     if (documentVerificationData?.labDocumentHashId) {
+  //       dispatch({
+  //         type: "labDocumentHashBlockchainProofData",
+  //       });
+  //       const response = await getBlockchainProof({
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({
+  //           id: documentVerificationData?.labDocumentHashId,
+  //           type: "document_hash",
+  //         }),
+  //       });
+  //       dispatch({
+  //         type: "labDocumentHashBlockchainProofData",
+  //         payload: response,
+  //       });
+  //     }
+  //     dispatch({
+  //       type: "updateDocumentVerificationData",
+  //       payload: {
+  //         blockchainProofApiFlag: false,
+  //       },
+  //     });
+  //   };
+  //   if (
+  //     !documentVerificationData?.isLoading &&
+  //     documentVerificationData?.blockchainProofApiFlag
+  //   ) {
+  //     fetchData();
+  //   }
+  // }, [documentVerificationData?.blockchainProofApiFlag]);
+
+  // useEffect(() => {
+  //   if (documentVerificationData?.message) {
+  //     setTimeout(() => {
+  //       dispatch({
+  //         type: "documentVerificationData",
+  //         payload: {
+  //           message: "",
+  //           isLoading: false,
+  //         },
+  //       });
+  //     }, 15000);
+  //   }
+  // }, [documentVerificationData?.message]);
 
   useEffect(() => {
     if (open) {
-      dispatch({
-        type: "setInitialState",
-      });
+      // dispatch({
+      //   type: "setInitialState",
+      // });
       setDocumentFile(null);
     }
   }, [open]);
+
+  const verifyOrganizationDocument = async (data, i) => {
+    let arr = [...activeOrgDocuments];
+    if (arr[i]) {
+      arr = arr.map((a, index) => (index === i ? data?.id : a));
+    } else {
+      arr = arr.concat(data?.id);
+    }
+    if (!data?.documentInfo || Object.keys(data?.documentInfo).length < 2) {
+      dispatch({
+        type: "VERIFY_COA_DOCUMENT_LOADING",
+        payload: {
+          loading: true,
+          activeOrgDocuments: arr,
+        },
+      });
+      let formData = new FormData();
+      formData.append("document_id", data?.document_id);
+      const response = await verifyCoaDocument(formData);
+      if (response?.status === "1") {
+        dispatch({
+          type: "VERIFY_COA_DOCUMENT_SUCCESS",
+          payload: {
+            ...response,
+            loading: false,
+            activeOrgDocuments: arr,
+          },
+        });
+      } else {
+        dispatch({
+          type: "VERIFY_COA_DOCUMENT_LOADING",
+          payload: {
+            loading: false,
+            activeOrgDocuments: arr?.slice(0, arr?.length - 1),
+          },
+        });
+      }
+    }
+  };
+
+  const getBlockchainProofs = (data, i = 0) => {
+    if (!data) return <></>;
+    return (
+      <>
+        {data?.loading && (
+          <Typography
+            variant="body2"
+            display="flex"
+            alignItems={"center"}
+            justifyContent="center"
+          >
+            Please wait while we are verifying the document...
+            <CircularProgress size={20} sx={{ ml: 0.5 }} />
+          </Typography>
+        )}
+        {data?.status === "1" &&
+          !data?.loading &&
+          (data?.isVerifyDocument ? (
+            <>
+              <VerifiedDocumentInfo {...data} />
+              {data?.govEntity?.length ? (
+                <>
+                  <VerifiedOrganizationInfo
+                    {...data}
+                    onOrganizationClick={(a) =>
+                      verifyOrganizationDocument(a, i)
+                    }
+                  />
+                  {getBlockchainProofs(
+                    data?.govEntity?.filter(
+                      (a) => a?.id === activeOrgDocuments[i]
+                    )?.[0]?.documentInfo || null,
+                    i + 1
+                  )}
+                </>
+              ) : (
+                <HashNotVerifiedErrorMsg hashType="Organization" {...data} />
+              )}
+            </>
+          ) : (
+            <HashNotVerifiedErrorMsg
+              hashType={data?.isOrganizationDoc ? "Organization" : "Document"}
+              {...data}
+            />
+          ))}
+      </>
+    );
+  };
+
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth={"md"}>
       <DialogTitle
@@ -255,7 +392,7 @@ export default function BlockchainProofDialog({
             component="label"
             startIcon={<UploadIcon />}
             sx={{ typography: "body1" }}
-            disabled={documentVerificationData?.isLoading}
+            disabled={verifyCoaDocumentData?.loading}
           >
             Upload
             <input
@@ -264,9 +401,9 @@ export default function BlockchainProofDialog({
               onClick={(e) => (e.target.value = null)}
               onChange={(e) => {
                 if (e.target?.files[0]) {
-                  dispatch({
-                    type: "setInitialState",
-                  });
+                  // dispatch({
+                  //   type: "setInitialState",
+                  // });
                   setDocumentFile(e.target.files[0]);
                 }
               }}
@@ -278,17 +415,17 @@ export default function BlockchainProofDialog({
               variant="contained"
               onClick={handleVerifyDocument}
               endIcon={
-                documentVerificationData?.isLoading && (
+                verifyCoaDocumentData?.loading && (
                   <CircularProgress size={20} color="inherit" />
                 )
               }
-              disabled={documentVerificationData?.isLoading}
+              disabled={verifyCoaDocumentData?.loading}
             >
-              {documentVerificationData?.isLoading ? "Verifying..." : "Verify"}
+              {verifyCoaDocumentData?.loading ? "Verifying..." : "Verify"}
             </Button>
           )}
         </Box>
-        {documentVerificationData?.message &&
+        {/* {documentVerificationData?.message &&
           !documentVerificationData?.isLoading && (
             <Box sx={{ my: 2 }}>
               <Typography
@@ -320,8 +457,8 @@ export default function BlockchainProofDialog({
                 )}
               </Typography>
             </Box>
-          )}
-        {exhibitBlockchainProofData?.isLoading && (
+          )} */}
+        {/* {exhibitBlockchainProofData?.isLoading && (
           <Typography
             variant="body1"
             display="flex"
@@ -331,8 +468,10 @@ export default function BlockchainProofDialog({
             Please wait while we are fetching the product detail...
             <CircularProgress size={20} sx={{ ml: 0.5 }} />
           </Typography>
-        )}
+        )} */}
         <Box className={classes.healthloqWidgetBlockchainProofContainer}>
+          {!verifyCoaDocumentData?.loading &&
+            getBlockchainProofs(verifyCoaDocumentData, 0)}
           {documentVerificationData?.integrantId &&
             !exhibitBlockchainProofData?.isLoading &&
             typeof exhibitBlockchainProofData?.result === "boolean" && (

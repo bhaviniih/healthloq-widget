@@ -34,6 +34,39 @@ export const initialState = {
     data: null,
     blockAddress: null,
   },
+  verifyCoaDocumentData: {
+    loading: false,
+  },
+  activeOrgDocuments: [],
+};
+
+const updateCoaData = (data, payload, i) => {
+  return {
+    ...data,
+    govEntity: (data?.govEntity || [])?.map((org) => {
+      if (payload.activeOrgDocuments[i] === org?.id) {
+        if (payload.activeOrgDocuments?.length - 1 === i) {
+          return {
+            ...org,
+            documentInfo: {
+              ...(org?.documentInfo || {}),
+              ...payload,
+            },
+          };
+        } else {
+          return {
+            ...org,
+            documentInfo: updateCoaData(
+              org?.documentInfo || {},
+              payload,
+              i + 1
+            ),
+          };
+        }
+      }
+      return org;
+    }),
+  };
 };
 
 export const useReducerHook = () =>
@@ -103,6 +136,26 @@ export const useReducerHook = () =>
             ...payload,
           },
         };
+      case "VERIFY_COA_DOCUMENT_LOADING": {
+        return {
+          ...state,
+          activeOrgDocuments: payload?.activeOrgDocuments || [],
+          verifyCoaDocumentData: !payload?.activeOrgDocuments?.length
+            ? {
+                loading: payload?.loading,
+              }
+            : updateCoaData(state.verifyCoaDocumentData, payload, 0),
+        };
+      }
+      case "VERIFY_COA_DOCUMENT_SUCCESS": {
+        return {
+          ...state,
+          activeOrgDocuments: payload?.activeOrgDocuments || [],
+          verifyCoaDocumentData: payload?.isOrganizationDoc
+            ? updateCoaData(state.verifyCoaDocumentData, payload, 0)
+            : payload,
+        };
+      }
       case "setInitialState":
         return initialState;
       default:

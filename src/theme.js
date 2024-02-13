@@ -8,6 +8,9 @@ export const theme = createTheme({
     secondary: {
       main: "#EAF7ED",
     },
+    error: {
+      main: "#D6513F",
+    },
     borderColor: "rgba(0,0,0,0.1)",
     lightBlackColor: "#6c757d",
     lightGray: "#999",
