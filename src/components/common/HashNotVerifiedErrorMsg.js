@@ -50,10 +50,17 @@ const useStyle = makeStyles((theme) => ({
 export default function HashNotVerifiedErrorMsg({
   hashType = "",
   organization_name = "",
+  is_expired = false,
 }) {
   const classes = useStyle();
   return (
-    <Box className={clsx(classes.root, "blockchain-proof-error-msg")}>
+    <Box
+      className={clsx(
+        classes.root,
+        is_expired && "blockchain-proof-expired",
+        "blockchain-proof-error-msg"
+      )}
+    >
       <Box>
         <Typography variant="h5">{hashType} Status: Not Verified</Typography>
         <CancelOutlinedIcon />

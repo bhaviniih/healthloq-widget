@@ -1,8 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import moment from "moment";
 import { makeStyles } from "@mui/styles";
+import clsx from "clsx";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -76,6 +78,18 @@ const useStyle = makeStyles((theme) => ({
       },
     },
   },
+  expiredDoc: {
+    border: `2px solid #FFAA1D`,
+    "&>div": {
+      "&:first-child": {
+        borderBottom: `2px solid #FFAA1D`,
+        background: "#FFAA1D30",
+        "&>svg": {
+          color: "#FFAA1D",
+        },
+      },
+    },
+  },
 }));
 
 export default function VerifiedOrganizationInfo({
@@ -84,11 +98,23 @@ export default function VerifiedOrganizationInfo({
   onOrganizationClick = () => {},
 }) {
   const classes = useStyle();
+  const is_expired = govEntity?.reduce(
+    (result, item) => item?.is_expired && result,
+    true
+  );
   return (
-    <Box className={classes.root}>
+    <Box
+      className={clsx(
+        classes.root,
+        is_expired && classes.expiredDoc,
+        is_expired && "blockchain-proof-expired"
+      )}
+    >
       <Box>
-        <Typography variant="h5">Organization Status: Verified</Typography>
-        <CheckCircleOutlinedIcon />
+        <Typography variant="h5">
+          Organization Status: {is_expired ? "Expired" : "Verified"}
+        </Typography>
+        {is_expired ? <CancelOutlinedIcon /> : <CheckCircleOutlinedIcon />}
       </Box>
       <Box>
         <Typography variant="body1">
@@ -96,8 +122,8 @@ export default function VerifiedOrganizationInfo({
           validating&nbsp;<span>{organization_name}</span>.
         </Typography>
         <Typography variant="body1">
-          Original, verified accreditation issued directly from, and digitally
-          signed by the issuing organization.
+          Original, {is_expired ? "expired" : "verified"} accreditation issued
+          directly from, and digitally signed by the issuing organization.
         </Typography>
       </Box>
       <Box>

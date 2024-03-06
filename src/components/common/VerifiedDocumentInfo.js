@@ -82,6 +82,21 @@ const useStyle = makeStyles((theme) => ({
       },
     },
   },
+  expiredDoc: {
+    border: `2px solid #FFAA1D`,
+    "&>div": {
+      "&:first-child": {
+        borderBottom: `2px solid #FFAA1D`,
+        background: "#FFAA1D30",
+        "&>svg": {
+          color: "#FFAA1D",
+        },
+      },
+      "&:last-child": {
+        borderTop: `2px solid ${theme.palette.borderColor}`,
+      },
+    },
+  },
 }));
 
 export default function VerifiedDocumentInfo({
@@ -92,12 +107,15 @@ export default function VerifiedDocumentInfo({
   organization_id = "",
   batch_id = "",
   govEntity = [],
+  is_expired = false,
 }) {
   const classes = useStyle();
   return (
     <Box
       className={clsx(
         classes.root,
+        is_expired && classes.expiredDoc,
+        is_expired && "blockchain-proof-expired",
         !govEntity?.length && "blockchain-proof-error-msg"
       )}
     >
