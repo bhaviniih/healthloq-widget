@@ -4,6 +4,7 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import clsx from "clsx";
 import moment from "moment";
 import { makeStyles } from "@mui/styles";
+import { getValidUrl } from "../../utils";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -76,7 +77,7 @@ const useStyle = makeStyles((theme) => ({
 export default function ExpiredDocument({
   effective_date = null,
   organization_name = "",
-  organization_domain = "",
+  domain_name = "",
   verified_at = null,
 }) {
   const classes = useStyle();
@@ -100,9 +101,16 @@ export default function ExpiredDocument({
         </Typography>
         <Typography variant="body1">
           <span>{organization_name}</span>&nbsp;
-          {Boolean(organization_domain)
-            ? `from <span>${organization_domain}</span>`
-            : null}
+          {Boolean(domain_name) ? (
+            <>
+              from&nbsp;
+              <span>
+                <a href={getValidUrl(domain_name)} target="_blank">
+                  {domain_name}
+                </a>
+              </span>
+            </>
+          ) : null}
         </Typography>
         <Typography variant="body2">on</Typography>
         <Typography variant="body1">

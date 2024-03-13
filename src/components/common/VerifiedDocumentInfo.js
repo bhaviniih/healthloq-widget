@@ -4,6 +4,7 @@ import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import moment from "moment";
 import clsx from "clsx";
 import { makeStyles } from "@mui/styles";
+import { getValidUrl } from "../../utils";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -46,6 +47,9 @@ const useStyle = makeStyles((theme) => ({
               fontWeight: 700,
               "&:nth-child(2)": {
                 fontStyle: "italic",
+                "&>a": {
+                  color: theme.palette.primary.main,
+                },
               },
             },
           },
@@ -101,7 +105,7 @@ const useStyle = makeStyles((theme) => ({
 
 export default function VerifiedDocumentInfo({
   organization_name = "",
-  organization_domain = "",
+  domain_name = "",
   verified_at = null,
   document_id = "",
   organization_id = "",
@@ -130,9 +134,16 @@ export default function VerifiedDocumentInfo({
         </Typography>
         <Typography variant="body1">
           <span>{organization_name}</span>&nbsp;
-          {Boolean(organization_domain)
-            ? `from <span>${organization_domain}</span>`
-            : null}
+          {Boolean(domain_name) ? (
+            <>
+              from&nbsp;
+              <span>
+                <a href={getValidUrl(domain_name)} target="_blank">
+                  {domain_name}
+                </a>
+              </span>
+            </>
+          ) : null}
         </Typography>
         <Typography variant="body2">on</Typography>
         <Typography variant="body1">
