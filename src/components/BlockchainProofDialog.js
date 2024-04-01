@@ -409,6 +409,19 @@ export default function BlockchainProofDialog({
             startIcon={<UploadIcon />}
             sx={{ typography: "body1" }}
             disabled={verifyCoaDocumentData?.loading}
+            onDrop={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              setDocumentFile(event.dataTransfer.files[0]);
+            }}
+            onDragEnter={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+            onDragOver={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
           >
             Upload
             <input
