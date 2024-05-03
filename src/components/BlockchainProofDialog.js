@@ -336,24 +336,25 @@ export default function BlockchainProofDialog({
               ) : (
                 <VerifiedDocumentInfo {...data} />
               )}
-              {data?.govEntity?.length ? (
-                <>
-                  <VerifiedOrganizationInfo
-                    {...data}
-                    onOrganizationClick={(a) =>
-                      verifyOrganizationDocument(a, i)
-                    }
-                  />
-                  {getBlockchainProofs(
-                    data?.govEntity?.filter(
-                      (a) => a?.id === activeOrgDocuments[i]
-                    )?.[0]?.documentInfo || null,
-                    i + 1
-                  )}
-                </>
-              ) : (
-                <HashNotVerifiedErrorMsg hashType="Organization" {...data} />
-              )}
+              {!data?.hide_org &&
+                (data?.govEntity?.length ? (
+                  <>
+                    <VerifiedOrganizationInfo
+                      {...data}
+                      onOrganizationClick={(a) =>
+                        verifyOrganizationDocument(a, i)
+                      }
+                    />
+                    {getBlockchainProofs(
+                      data?.govEntity?.filter(
+                        (a) => a?.id === activeOrgDocuments[i]
+                      )?.[0]?.documentInfo || null,
+                      i + 1
+                    )}
+                  </>
+                ) : (
+                  <HashNotVerifiedErrorMsg hashType="Organization" {...data} />
+                ))}
             </>
           ) : (
             <HashNotVerifiedErrorMsg
