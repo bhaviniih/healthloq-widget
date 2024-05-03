@@ -166,7 +166,7 @@ export default function VerifiedDocumentInfo({
         </Box>
         <Box>
           <Typography variant="body1">Block Location</Typography>
-          <Typography variant="body1">Block ID: {batch_id?.IonText}</Typography>
+          <Typography variant="body1" style={{lineBreak : "anywhere"}}>Block ID: {batch_id?.IonText}</Typography>
         </Box>
       </Box>
     </Box>
