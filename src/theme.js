@@ -45,7 +45,7 @@ export const theme = createTheme({
       ],
       styleOverrides: {
         root: ({ ownerState, theme }) => ({
-          lineBreak: "anywhere",
+          // lineBreak: "anywhere",
         }),
       },
     },
